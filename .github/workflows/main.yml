@@ -14,16 +14,16 @@ jobs:
         uses: actions/checkout@v2
 
       - name: SAST (Static Application Security Testing) with CodeQL
-        uses: github/codeql-action/analyze@v1
+        uses: github/codeql-action/analyze@v2
 
       - name: Build and Push Docker Image
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
-          docker build -t your-image-name:latest .
+          docker build -t pygoat:latest .
           docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-          docker push your-image-name:latest
+          docker push pygoat:latest
 
       - name: Container Image Scanning with Trivy
         run: |
@@ -33,4 +33,4 @@ jobs:
           sudo mv trivy /usr/local/bin/trivy
 
           # Scan Docker image
-          trivy your-image-name:latest
+          trivy pygoat:latest
