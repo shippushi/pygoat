@@ -13,20 +13,21 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
         
-      # - name: Initialize CodeQL
-      #   uses: github/codeql-action/init@v2
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
         
-      # - name: SAST (Static Application Security Testing) with CodeQL
-      #   uses: github/codeql-action/analyze@v2
+      - name: SAST (Static Application Security Testing) with CodeQL
+        uses: github/codeql-action/analyze@v2
 
       - name: Build and Push Docker Image
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKER_REPO: shippushi/pygoat
         run: |
-          docker build -t pygoat:latest .
+          docker build -t $DOCKER_REPO:${{ github.sha }} .
           docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-          docker push pygoat:latest
+          docker push $DOCKER_REPO:${{ github.sha }}
 
       - name: Container Image Scanning with Trivy
         run: |
