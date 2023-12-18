@@ -18,7 +18,7 @@ jobs:
         
       # - name: SAST (Static Application Security Testing) with CodeQL
       #   uses: github/codeql-action/analyze@v2
-      #
+      
       - name: Publish to docker hub
         uses: docker/build-push-action@v1
         with:
